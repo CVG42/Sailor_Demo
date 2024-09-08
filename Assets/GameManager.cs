@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class GameManager : MonoBehaviour
     [Space(5)]
     [Header("Activable Platforms")]
     public GameObject[] activablePlatforms;
+
+    [Space(5)]
+    [Header("Teleport zone")]
+    public GameObject[] teleport;
+    public string nextSceneName;
 
     void Update()
     {
