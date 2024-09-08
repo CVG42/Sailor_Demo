@@ -20,12 +20,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Action<GAME_STATE> onGameStateChanged;
+    
+    [Header("Game State and player")]
     public GAME_STATE currentGameState;
     public PlayerController player;
-    
+
+    [Space(10)]
+    [Header("Path Conditions")]
+    [Space(5)]
     public List<RotationPathCondition> rotatingPathConditions = new List<RotationPathCondition>();
     public List<VerticalMovablePathCondition> verticalMovablePathConditions = new List<VerticalMovablePathCondition>();
     public List<HorizontalMovablePathCondition> horizontalMovablePathConditions = new List<HorizontalMovablePathCondition>();
+    public List<ActivatedPathCondition> activatedPathConditions = new List<ActivatedPathCondition>();
+
+    [Space(10)]
+    [Header("Activable Platforms")]
+    public GameObject[] activablePlatforms;
 
     void Update()
     {
@@ -98,6 +108,22 @@ public class GameManager : MonoBehaviour
             foreach(SinglePath sp in hm.paths)
                 sp.block.possiblePaths[sp.index].active = (count == hm.conditions.Count);
         }
+
+        foreach (ActivatedPathCondition ap in activatedPathConditions)
+        {
+            int count = 0;
+
+            for (int i = 0; i < ap.conditions.Count; i++)
+            {
+                if (Vector3.Distance(ap.conditions[i].conditionPlatform.position, ap.conditions[i].XYposition) < 0.01f)
+                {
+                    count++;
+                }
+            }
+
+            foreach (SinglePath sp in ap.paths)
+                sp.block.possiblePaths[sp.index].active = (count == ap.conditions.Count);
+        }
     }
 }
 
@@ -126,6 +152,14 @@ public class VerticalMovablePathCondition
 
 [System.Serializable]
 public class HorizontalMovablePathCondition
+{
+    public string name;
+    public List<MoveCondition> conditions;
+    public List<SinglePath> paths;
+}
+
+[System.Serializable]
+public class ActivatedPathCondition
 {
     public string name;
     public List<MoveCondition> conditions;

@@ -7,7 +7,7 @@ public class ActivableButton : MonoBehaviour
     bool isOnPlay;
     public bool isActivated;
 
-    [SerializeField] private Animator buttonAnim = null;
+    [SerializeField] private Animator buttonAnim, platformAnim = null;
 
     void Start()
     {
@@ -33,6 +33,7 @@ public class ActivableButton : MonoBehaviour
             isActivated = true;
             Debug.Log("Button is activated");
             buttonAnim.SetBool("activated", true);
+            platformAnim.SetBool("activated", true);
         }
     }
 }
