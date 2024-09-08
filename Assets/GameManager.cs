@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public List<HorizontalMovablePathCondition> horizontalMovablePathConditions = new List<HorizontalMovablePathCondition>();
     public List<ActivatedPathCondition> activatedPathConditions = new List<ActivatedPathCondition>();
 
-    [Space(10)]
+    [Space(5)]
     [Header("Activable Platforms")]
     public GameObject[] activablePlatforms;
 
