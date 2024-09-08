@@ -155,6 +155,11 @@ public class PlayerController : MonoBehaviour
                 s.Join(transform.DOLookAt(finalPath[i].position, .1f, AxisConstraint.Y, Vector3.up));
         }
 
+        if(clickedCube.GetComponent<Walkable>().isButton)
+        {
+            Debug.Log("Activated Button");
+        }
+
         s.AppendCallback(() => Clear());
     }
 

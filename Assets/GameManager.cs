@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     public Action<GAME_STATE> onGameStateChanged;
     public GAME_STATE currentGameState;
+    public PlayerController player;
     
     public List<RotationPathCondition> rotatingPathConditions = new List<RotationPathCondition>();
     public List<VerticalMovablePathCondition> verticalMovablePathConditions = new List<VerticalMovablePathCondition>();
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         ConditionPath();
+        if (player.walking) return;
     }
 
     public void ChangeGameState(GAME_STATE _newGameState)
