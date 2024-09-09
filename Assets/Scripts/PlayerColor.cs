@@ -9,7 +9,6 @@ public class PlayerColor : MonoBehaviour
     {
        
         playerRenderer = GetComponent<Renderer>();
-        currentColor = Color.blue; 
         playerRenderer.material.color = currentColor;
     }
 
