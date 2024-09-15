@@ -7,7 +7,7 @@ public class MoveX : MonoBehaviour
     bool isOnPlay;
 
     public Vector2 turn;
-    public float final, start;
+    public float start, final;
 
     void Start()
     {

@@ -7,7 +7,7 @@ public class MoveY : MonoBehaviour
     bool isOnPlay;
 
     public Vector2 turn;
-    public float final, start;
+    public float start, final;
     //-4.87
 
     void Start()
@@ -28,11 +28,11 @@ public class MoveY : MonoBehaviour
 
         if (transform.position.y < start && turn.y > 0)
         {
-            transform.Translate(0,1 * Time.deltaTime * 4, 0);
+            transform.Translate(0,4 * Time.deltaTime, 0);
         }
         else if (transform.position.y > final && turn.y < 0)
         {
-            transform.Translate(0, -1 * Time.deltaTime * 4, 0);
+            transform.Translate(0, -4 * Time.deltaTime, 0);
         }
     }
 

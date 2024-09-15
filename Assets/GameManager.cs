@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
                 if(pc.conditions[i].conditionObject.eulerAngles == pc.conditions[i].eulerAngle)
                 {
                     count++;
-                    pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;
+                    //pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;
                 }
             }
             

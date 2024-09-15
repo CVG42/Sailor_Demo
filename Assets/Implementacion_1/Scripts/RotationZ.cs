@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotation : MonoBehaviour
+public class RotationZ : MonoBehaviour
 {
     public Vector2 turn;
+    [SerializeField] bool Flip;
 
     bool isOnPlay;
 
@@ -34,15 +35,27 @@ public class Rotation : MonoBehaviour
     {
         if (!isOnPlay) return;
 
-        if ((transform.eulerAngles.z > 270 || transform.eulerAngles.z <= 0) && turn.x < 0)
+        if (Flip)
         {
-            //rotatingClockwise = true;
-            transform.Rotate(0, 0, -1);
+            if ((transform.eulerAngles.z > 270 || transform.eulerAngles.z <= 0) && turn.x < 0)
+            {
+                transform.Rotate(0, 0, -1);
+            }
+            else if (transform.eulerAngles.z > 0 && turn.x > 0)
+            {
+                transform.Rotate(0, 0, 1);
+            }
         }
-        else if (transform.eulerAngles.z > 0 && turn.x > 0)
+        else
         {
-            transform.Rotate(0, 0, 1);
-            //rotatingClockwise = false;
+            if ((transform.eulerAngles.z < 270 || transform.eulerAngles.z <= 180) && turn.x < 0)
+            {
+                transform.Rotate(0, 0, 1);
+            }
+            else if (transform.eulerAngles.z > 180 && turn.x > 0)
+            {
+                transform.Rotate(0, 0, -1);
+            }
         }
     }
 
