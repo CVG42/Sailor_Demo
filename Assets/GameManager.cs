@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Action<GAME_STATE> onGameStateChanged;
-    
+
     [Header("Game State and player")]
     public GAME_STATE currentGameState;
     public PlayerController player;
@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     [Header("Teleport zone")]
     public GameObject[] teleport;
     public string nextSceneName;
+
+    [Space(5)]
+    [Header("Extra elements")]
+    public GameObject particles;
 
     void Update()
     {
@@ -124,6 +128,7 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(ap.conditions[i].conditionPlatform.position, ap.conditions[i].XYposition) < 0.01f)
                 {
                     count++;
+                    particles.SetActive(true);
                 }
             }
 

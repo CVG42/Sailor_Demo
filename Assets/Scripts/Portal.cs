@@ -3,10 +3,14 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     public Color portalColor;
-    public Transform targetPortal; 
+    public GameObject targetPortal;
+    public GameObject player1;
+    public GameObject target;
+
     private void Start()
     {
-        portalColor = Color.red;
+        //portalColor = Color.red;
+        target.GetComponent<Renderer>().material.color = portalColor;
         GetComponent<Renderer>().material.color = portalColor;
         
     }
@@ -19,19 +23,18 @@ public class Portal : MonoBehaviour
 
             if (playerColor != null && playerColor.currentColor == portalColor)
             {
-                
-                TeleportPlayer(other.transform);
+                TeleportPlayer();
             }
             
         }
     }
 
-    private void TeleportPlayer(Transform player)
+    private void TeleportPlayer()
     {
         if (targetPortal != null)
         {
-            player.position = targetPortal.position;
-            player.rotation = targetPortal.rotation; 
+            player1.SetActive(false);
+            targetPortal.SetActive(true);
         }
         
     }

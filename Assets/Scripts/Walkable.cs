@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Walkable : MonoBehaviour
 {
-
+    //[Tooltip("Specifies which blocks (previous and next) can be walked from the current block")]
+    /// <summary>List all possible paths to walk on.
+    /// Previous and next blocks from the current block</summary>
     public List<WalkPath> possiblePaths = new List<WalkPath>();
 
     [Space]
