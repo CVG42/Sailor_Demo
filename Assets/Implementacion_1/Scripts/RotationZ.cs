@@ -5,9 +5,11 @@ using UnityEngine;
 public class RotationZ : MonoBehaviour
 {
     public Vector2 turn;
+    [SerializeField] Vector3 targetAngle;
     [SerializeField] bool Flip;
-
     bool isOnPlay;
+    Vector3 startAngle;
+    float newAngle, begin;
 
     void Start()
     {
@@ -18,43 +20,36 @@ public class RotationZ : MonoBehaviour
     void Update()
     {
         if (!isOnPlay) return;
-
+        float currentAngle = transform.eulerAngles.z;
+        newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle.z, 200f * Time.deltaTime);
+        begin = Mathf.MoveTowardsAngle(currentAngle, startAngle.z, 200f * Time.deltaTime);
         turn.x = Input.GetAxis("Mouse X");
-        
-        /*if(rotatingClockwise && (transform.eulerAngles.z > 270 || transform.eulerAngles.z <= 0))
-        {
-            transform.Rotate(0,0,-1);
-        }
-        else if(!rotatingClockwise && transform.eulerAngles.z > 0){
-            transform.Rotate(0,0,1);
-        }*/
-
     }
 
     private void OnMouseDrag()
     {
         if (!isOnPlay) return;
 
-        if (Flip)
+        if (!Flip)
         {
-            if ((transform.eulerAngles.z > 270 || transform.eulerAngles.z <= 0) && turn.x < 0)
+            if (turn.x < 0)
             {
-                transform.Rotate(0, 0, -1);
+                transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin);
             }
-            else if (transform.eulerAngles.z > 0 && turn.x > 0)
+            else if (turn.x > 0)
             {
-                transform.Rotate(0, 0, 1);
+                transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
             }
         }
         else
         {
-            if ((transform.eulerAngles.z < 270 || transform.eulerAngles.z <= 180) && turn.x < 0)
+            if (turn.x > 0)
             {
-                transform.Rotate(0, 0, 1);
+                transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin);
             }
-            else if (transform.eulerAngles.z > 180 && turn.x > 0)
+            else if (turn.x < 0)
             {
-                transform.Rotate(0, 0, -1);
+                transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
             }
         }
     }
