@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Primer mundo/1-1.unity
+    guid: 84e8d8267ec724a4fa5ae57895b2da46
   m_configObjects: {}
