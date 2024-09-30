@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 public class PortalEndLevel : MonoBehaviour
 {
     public Color portalColor;
-    [SerializeField] GameObject victory;
+    //[SerializeField] GameObject victory;
+    public string nextSceneName;
+    public int levelIndex;
+
     private void Start()
     {
         GetComponent<Renderer>().material.color = portalColor;
@@ -27,7 +30,9 @@ public class PortalEndLevel : MonoBehaviour
             if (playerColor != null && playerColor.currentColor == portalColor)
             {
                 //SceneManager.LoadScene("Level 2");
-                victory.SetActive(true);
+                //victory.SetActive(true);
+                PlayerPrefs.SetInt("Lv" + levelIndex, 1);
+                SceneManager.LoadScene(nextSceneName);
                 Debug.Log("Se cambio la escena");
             }
 

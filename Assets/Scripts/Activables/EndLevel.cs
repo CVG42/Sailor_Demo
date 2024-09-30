@@ -7,6 +7,7 @@ public class EndLevel : MonoBehaviour
 {
     bool isOnPlay;
     public string nextSceneName;
+    public int levelIndex;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class EndLevel : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            PlayerPrefs.SetInt("Lv" + levelIndex, 1);
             SceneManager.LoadScene(nextSceneName);
             Debug.Log("Teleport to next scene");
         }
