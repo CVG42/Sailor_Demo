@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotationYTouch : MonoBehaviour
+public class RotationZTouch : MonoBehaviour
 {
     public bool isRotating = false;
     float turn;
@@ -18,9 +18,9 @@ public class RotationYTouch : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(0);
                 turn = touch.deltaPosition.x;
-                float currentAngle = transform.eulerAngles.y;
-                newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle.y, 200f * Time.deltaTime);
-                begin = Mathf.MoveTowardsAngle(currentAngle, startAngle.y, 200f * Time.deltaTime);
+                float currentAngle = transform.eulerAngles.z;
+                newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle.z, 200f * Time.deltaTime);
+                begin = Mathf.MoveTowardsAngle(currentAngle, startAngle.z, 200f * Time.deltaTime);
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
@@ -38,12 +38,12 @@ public class RotationYTouch : MonoBehaviour
     {
         if (turn < 0)
         {
-            transform.rotation = Quaternion.Euler(targetAngle.x, newAngle, targetAngle.z);
+            transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
 
         }
         else if (turn > 0)
         {
-            transform.rotation = Quaternion.Euler(startAngle.x, begin, startAngle.z); ;
+            transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin); ;
         }
     }
 }

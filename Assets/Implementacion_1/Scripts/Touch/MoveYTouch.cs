@@ -5,138 +5,51 @@ using UnityEngine;
 
 public class MoveYTouch : MonoBehaviour
 {
-    bool isOnPlay;
-    private Vector2 fingerDownPos;
-    private Vector2 fingerUpPos;
-   
-    public bool detectSwipeAfterRelease = false;
-
-    public float SWIPE_THRESHOLD = 20f;
-
+    public bool isMoving = false;
+    float turn;
     [Header("Movimiento")]
     public float LimitNegative;
     public float LimitPositive;
-    void Start()
+    private void Update()
     {
-        GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
-        OnGameStateChanged(GameManager.GetInstance().currentGameState);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isOnPlay) return;
-        foreach (Touch touch in Input.touches)
+        if (isMoving)
         {
-            Ray ray = Camera.main.ScreenPointToRay(touch.position);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if(Input.touchCount == 1)
             {
-                if (hit.transform == transform)
+                Touch touch = Input.GetTouch(0);
+                turn = touch.deltaPosition.y;
+                switch (touch.phase)
                 {
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        fingerUpPos = touch.position;
-                        fingerDownPos = touch.position;
-                    }
-
-                    //Detects Swipe while finger is still moving on screen
-                    if (touch.phase == TouchPhase.Moved)
-                    {
-                        if (!detectSwipeAfterRelease)
+                    case TouchPhase.Moved:
+                        Movement();
+                        break;
+                    case TouchPhase.Ended:
+                       
+                        if (transform.position.y > (LimitPositive - 0.09f))
                         {
-                            fingerDownPos = touch.position;
-                            DetectSwipe();
+                            transform.position = new Vector3(transform.position.x, Mathf.Round(transform.position.y), transform.position.z);
                         }
-                    }
-
-                    //Detects swipe after finger is released from screen
-                    if (touch.phase == TouchPhase.Ended)
-                    {
-                        fingerDownPos = touch.position;
-                        DetectSwipe();
-                    }
+                        else if (transform.position.y < (LimitNegative + 0.09f))
+                        {
+                            transform.position = new Vector3(transform.position.x, Mathf.Round(transform.position.y), transform.position.z);
+                        }
+                        isMoving = false;
+                        break;
                 }
             }
-
         }
     }
 
-    void DetectSwipe()
+    void Movement()
     {
-        if (!isOnPlay) return;
-        if (VerticalMoveValue() > SWIPE_THRESHOLD && VerticalMoveValue() > HorizontalMoveValue())
+        if (turn > 0 && transform.position.y < LimitPositive)
         {
-            Debug.Log("Vertical Swipe Detected!");
-            if (fingerDownPos.y - fingerUpPos.y > 0)
-            {
-                OnSwipeUp();
-            }
-            else if (fingerDownPos.y - fingerUpPos.y < 0)
-            {
-                OnSwipeDown();
-            }
-            fingerUpPos = fingerDownPos;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, LimitPositive, transform.position.z), 14 * Time.deltaTime);
 
         }
-        else if (HorizontalMoveValue() > SWIPE_THRESHOLD && HorizontalMoveValue() > VerticalMoveValue())
+        else if (turn < 0 && transform.position.y > LimitNegative)
         {
-            Debug.Log("Horizontal Swipe Detected!");
-            if (fingerDownPos.x - fingerUpPos.x > 0)
-            {
-                OnSwipeRight();
-            }
-            else if (fingerDownPos.x - fingerUpPos.x < 0)
-            {
-                OnSwipeLeft();
-            }
-            fingerUpPos = fingerDownPos;
-
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, LimitNegative, transform.position.z), 14 * Time.deltaTime);
         }
-        else
-        {
-            Debug.Log("No Swipe Detected!");
-        }
-    }
-
-    float VerticalMoveValue()
-    {
-        return Mathf.Abs(fingerDownPos.y - fingerUpPos.y);
-    }
-
-    float HorizontalMoveValue()
-    {
-        return Mathf.Abs(fingerDownPos.x - fingerUpPos.x);
-    }
-
-    void OnSwipeUp()
-    {
-        if(transform.position.y < LimitPositive )
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, LimitPositive, transform.position.z), 14 * Time.deltaTime);
-        }
-        
-    }
-
-    void OnSwipeDown()
-    {
-        if (transform.position.y > LimitNegative)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x,LimitNegative,transform.position.z), 14 * Time.deltaTime);
-        }
-    }
-
-    void OnSwipeLeft()
-    {
-
-    }
-
-    void OnSwipeRight()
-    {
-
-    }
-    void OnGameStateChanged(GAME_STATE _gs)
-    {
-        isOnPlay = _gs == GAME_STATE.PLAY;
     }
 }
