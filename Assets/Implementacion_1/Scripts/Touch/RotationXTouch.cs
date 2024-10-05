@@ -9,7 +9,15 @@ public class RotationXTouch : MonoBehaviour
     Vector3 startAngle;
     float newAngle, begin;
     [Header("Rotacion")]
+    [SerializeField] bool FlipControls;
     [SerializeField] Vector3 targetAngle;
+
+
+    private void Start()
+    {
+        startAngle = transform.localRotation.eulerAngles;
+        
+    }
     private void Update()
     {
         if (isRotating)
@@ -18,7 +26,7 @@ public class RotationXTouch : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(0);
                 turn = touch.deltaPosition.x;
-                float currentAngle = transform.eulerAngles.y;
+                float currentAngle = transform.eulerAngles.x;
                 newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle.x, 200f * Time.deltaTime);
                 begin = Mathf.MoveTowardsAngle(currentAngle, startAngle.x, 200f * Time.deltaTime);
                 switch (touch.phase)
@@ -36,14 +44,28 @@ public class RotationXTouch : MonoBehaviour
     }
     void Rotation()
     {
-        if (turn < 0)
+        if (!FlipControls)
         {
-            transform.rotation = Quaternion.Euler(newAngle, targetAngle.y, targetAngle.z);
-
+            if (turn < 0)
+            {
+                transform.rotation = Quaternion.Euler(begin, startAngle.y, startAngle.z);
+            }
+            else if (turn > 0)
+            {
+                transform.rotation = Quaternion.Euler(newAngle, targetAngle.y, targetAngle.z);
+            }
         }
-        else if (turn > 0)
+        else
         {
-            transform.rotation = Quaternion.Euler(begin, startAngle.y, startAngle.z);
+            if (turn > 0)
+            {
+
+                transform.rotation = Quaternion.Euler(begin, startAngle.y, startAngle.z);
+            }
+            else if (turn < 0)
+            {
+                transform.rotation = Quaternion.Euler(newAngle, targetAngle.y, targetAngle.z);
+            }
         }
     }
 }

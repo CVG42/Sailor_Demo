@@ -10,6 +10,13 @@ public class RotationZTouch : MonoBehaviour
     float newAngle, begin;
     [Header("Rotacion")]
     [SerializeField] Vector3 targetAngle;
+    [SerializeField] bool FlipControls;
+
+    private void Start()
+    {
+        startAngle = transform.localRotation.eulerAngles;
+
+    }
     private void Update()
     {
         if (isRotating)
@@ -36,14 +43,28 @@ public class RotationZTouch : MonoBehaviour
     }
     void Rotation()
     {
-        if (turn < 0)
+        if (!FlipControls)
         {
-            transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
-
+            if (turn < 0)
+            {
+                transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin);
+            }
+            else if (turn > 0)
+            {
+                transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
+            }
         }
-        else if (turn > 0)
+        else
         {
-            transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin); ;
+            if (turn > 0)
+            {
+
+                transform.rotation = Quaternion.Euler(startAngle.x, startAngle.y, begin);
+            }
+            else if (turn < 0)
+            {
+                transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, newAngle);
+            }
         }
     }
 }
