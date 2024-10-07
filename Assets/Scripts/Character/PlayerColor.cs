@@ -16,6 +16,10 @@ public class PlayerColor : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Rayo"))
         {
+            if (TutorialManager.GetInstance().tutorialStep == 3)
+            {
+                TutorialManager.GetInstance().CompleteStep();
+            }
             Color rayColor = other.gameObject.GetComponent<Renderer>().material.color;
             ChangeColor(rayColor);
         }

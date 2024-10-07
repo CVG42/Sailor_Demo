@@ -9,6 +9,8 @@ public class EndLevel : MonoBehaviour
     public string nextSceneName;
     public int levelIndex;
 
+    [SerializeField] SceneController sceneAnim;
+
     void Start()
     {
         GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
@@ -25,7 +27,8 @@ public class EndLevel : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             PlayerPrefs.SetInt("Lv" + levelIndex, 1);
-            SceneManager.LoadScene(nextSceneName);
+            sceneAnim.NextLevel();
+            //SceneManager.LoadScene(nextSceneName);
             Debug.Log("Teleport to next scene");
         }
     }

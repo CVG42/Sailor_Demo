@@ -9,6 +9,10 @@ public class UIManager : MonoBehaviour
 {
     bool isOnPlay;
 
+    [Space]
+    [Header("Settings Menu")]
+    [SerializeField] GameObject settingsMenu;
+
     [Header("space between menu items")]
     [SerializeField] Vector2 spacing;
 
@@ -107,10 +111,12 @@ public class UIManager : MonoBehaviour
                 break;
             case 1:
                 //second button
+                settingsMenu.SetActive(true);
                 Debug.Log("Settings");
                 break;
         }
     }
+
 
     void OnDestroy()
     {

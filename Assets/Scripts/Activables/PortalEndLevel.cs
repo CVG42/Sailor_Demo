@@ -10,6 +10,8 @@ public class PortalEndLevel : MonoBehaviour
     public string nextSceneName;
     public int levelIndex;
 
+    [SerializeField] SceneController sceneAnim;
+
     private void Start()
     {
         GetComponent<Renderer>().material.color = portalColor;
@@ -32,7 +34,8 @@ public class PortalEndLevel : MonoBehaviour
                 //SceneManager.LoadScene("Level 2");
                 //victory.SetActive(true);
                 PlayerPrefs.SetInt("Lv" + levelIndex, 1);
-                SceneManager.LoadScene(nextSceneName);
+                sceneAnim.NextLevel();
+                //SceneManager.LoadScene(nextSceneName);
                 Debug.Log("Se cambio la escena");
             }
 

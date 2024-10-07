@@ -70,6 +70,11 @@ public class PlayerController : MonoBehaviour
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.white, .1f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.black, .3f).SetDelay(.2f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.clear, .3f));
+
+                    if(TutorialManager.GetInstance().tutorialStep == 0)
+                    {
+                        TutorialManager.GetInstance().CompleteStep();
+                    }
                 }
             }
         }
