@@ -36,11 +36,19 @@ public class RotationXTouch : MonoBehaviour
                         break;
                     case TouchPhase.Ended:
 
+                        if (currentAngle >= (targetAngle.x - 8.0f))
+                        {
+                            transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, targetAngle.z);
+                        }
                         isRotating = false;
                         break;
                 }
+
+
             }
         }
+
+
     }
     void Rotation()
     {
