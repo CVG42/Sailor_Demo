@@ -11,6 +11,7 @@ public class TutorialPortal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager.instance.Teleport();
             if(TutorialManager.GetInstance().tutorialStep == 2)
             {
                 TutorialManager.GetInstance().CompleteStep();

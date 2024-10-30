@@ -42,10 +42,11 @@ public class RotationYTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
+                        AudioManager.instance.PlayBlocks();
                         Rotation();
                         break;
                     case TouchPhase.Ended:
-
+                        AudioManager.instance.StopBlocks();
                         isRotating = false;
                         break;
                 }

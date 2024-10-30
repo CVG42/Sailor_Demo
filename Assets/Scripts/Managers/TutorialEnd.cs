@@ -27,6 +27,7 @@ public class TutorialEnd : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager.instance.LevelComplete();
             PlayerPrefs.SetInt("Lv" + levelIndex, 1);
             gameOver.SetActive(true);
             //SceneManager.LoadScene(nextSceneName);

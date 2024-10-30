@@ -36,14 +36,15 @@ public class MoveXTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
-                        if (TutorialManager.GetInstance().tutorialStep == 1)
+                        AudioManager.instance.PlayBlocks();
+                        /*if (TutorialManager.GetInstance().tutorialStep == 1)
                         {
                             TutorialManager.GetInstance().CompleteStep();
-                        }
+                        }*/
                         Movement();
                         break;
                     case TouchPhase.Ended:
-
+                        AudioManager.instance.StopBlocks();
                         if (transform.position.x > (LimitPositive - 0.09f))
                         {
                             transform.position = new Vector3(Mathf.Round(transform.position.x), transform.position.y, transform.position.z);

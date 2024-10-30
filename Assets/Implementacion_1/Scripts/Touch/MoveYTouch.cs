@@ -37,14 +37,15 @@ public class MoveYTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
-                        if (TutorialManager.GetInstance().tutorialStep == 1)
+                        /*if (TutorialManager.GetInstance().tutorialStep == 1)
                         {
                             TutorialManager.GetInstance().CompleteStep();
-                        }
+                        }*/
+                        AudioManager.instance.PlayBlocks();
                         Movement();
                         break;
                     case TouchPhase.Ended:
-                       
+                        AudioManager.instance.StopBlocks();
                         if (transform.position.y > (LimitPositive - 0.09f))
                         {
                             transform.position = new Vector3(transform.position.x, Mathf.Round(transform.position.y), transform.position.z);

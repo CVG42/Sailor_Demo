@@ -114,6 +114,12 @@ public class UIManager : MonoBehaviour
                 settingsMenu.SetActive(true);
                 Debug.Log("Settings");
                 break;
+            case 2:
+                //third button
+                string currentScene = SceneManager.GetActiveScene().name;
+                SceneManager.LoadScene(currentScene);
+                GameManager.GetInstance().ChangeGameState(GAME_STATE.PLAY);
+                break;
         }
     }
 

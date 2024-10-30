@@ -16,6 +16,7 @@ public class PlayerColor : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Rayo"))
         {
+            AudioManager.instance.ChangeColor();
             if (TutorialManager.GetInstance().tutorialStep == 3)
             {
                 TutorialManager.GetInstance().CompleteStep();

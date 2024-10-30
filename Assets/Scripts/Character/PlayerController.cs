@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     private float blend;
 
+    float rotateVelocity;
+
     void Start()
     {
         GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (mouseHit.transform.GetComponent<Walkable>() != null)
                 {
+                    AudioManager.instance.WalkSound();
                     clickedCube = mouseHit.transform;
                     DOTween.Kill(gameObject.transform);
                     finalPath.Clear();
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.black, .3f).SetDelay(.2f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.clear, .3f));
 
-                    if(TutorialManager.GetInstance().tutorialStep == 0)
+                    if (TutorialManager.GetInstance().tutorialStep == 0)
                     {
                         TutorialManager.GetInstance().CompleteStep();
                     }
@@ -156,6 +159,7 @@ public class PlayerController : MonoBehaviour
 
             s.Append(transform.DOMove(finalPath[i].GetComponent<Walkable>().GetWalkPoint(), .2f * time).SetEase(Ease.Linear));
 
+            
             if (!finalPath[i].GetComponent<Walkable>().dontRotate)
                 s.Join(transform.DOLookAt(finalPath[i].position, .1f, AxisConstraint.Y, Vector3.up));
         }

@@ -36,10 +36,11 @@ public class MoveZTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
+                        AudioManager.instance.PlayBlocks();
                         Movement();
                         break;
                     case TouchPhase.Ended:
-
+                        AudioManager.instance.StopBlocks();
                         if (transform.position.z > (LimitPositive - 0.09f))
                         {
                             transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z));

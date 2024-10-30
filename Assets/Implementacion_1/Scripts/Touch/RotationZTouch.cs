@@ -42,6 +42,7 @@ public class RotationZTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
+                        AudioManager.instance.PlayBlocks();
                         if(TutorialManager.GetInstance().tutorialStep == 1)
                         {
                             TutorialManager.GetInstance().CompleteStep();
@@ -49,7 +50,7 @@ public class RotationZTouch : MonoBehaviour
                         Rotation();
                         break;
                     case TouchPhase.Ended:
-
+                        AudioManager.instance.StopBlocks();
                         isRotating = false;
                         break;
                 }
