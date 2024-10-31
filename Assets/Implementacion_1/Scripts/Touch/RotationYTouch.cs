@@ -38,6 +38,8 @@ public class RotationYTouch : MonoBehaviour
                         if (currentAngle >= (targetAngle.y - 8.0f))
                         {
                             transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, targetAngle.z);
+                            Collider collider = GetComponent<Collider>();
+                            collider.enabled = false;
                         }
                         isRotating = false;
                         break;

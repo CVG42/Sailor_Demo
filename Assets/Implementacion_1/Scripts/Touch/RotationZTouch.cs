@@ -37,6 +37,8 @@ public class RotationZTouch : MonoBehaviour
                         if (currentAngle >= (targetAngle.z - 8.0f))
                         {
                             transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, targetAngle.z);
+                            Collider collider = GetComponent<Collider>();
+                            collider.enabled = false;
                         }
                         isRotating = false;
                         break;
