@@ -24,11 +24,17 @@ public class PlayerController : MonoBehaviour
 
     float rotateVelocity;
 
+    private Vector3 startPosition;
+    private float initialYRotation;
+    private float directionThreshold = 0.1f;
+
     void Start()
     {
         GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
         OnGameStateChanged(GameManager.GetInstance().currentGameState);
         RayCastDown();
+        startPosition = transform.position;
+        initialYRotation = transform.eulerAngles.y;
     }
 
     void OnGameStateChanged(GAME_STATE _gs)
@@ -73,6 +79,36 @@ public class PlayerController : MonoBehaviour
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.white, .1f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.black, .3f).SetDelay(.2f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.clear, .3f));
+
+                    if (Input.touchCount > 0)
+                    {
+                        Touch touch = Input.GetTouch(0);
+
+                        Vector3 touchPosition = touch.position;
+                        touchPosition.z = Camera.main.WorldToScreenPoint(startPosition).z;
+                        Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(touchPosition);
+
+                        Vector3 direction = (worldTouchPosition - startPosition).normalized;
+
+                        float angleY = initialYRotation;
+
+                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z) * directionThreshold)
+                        {
+                            if (direction.x > 0)
+                                angleY = initialYRotation + 90;  
+                            else
+                                angleY = initialYRotation - 90; 
+                        }
+                        else
+                        {
+                            if (direction.z > 0)
+                                angleY = initialYRotation;      
+                            else
+                                angleY = initialYRotation + 180; 
+                        }
+
+                        transform.rotation = Quaternion.Euler(0, angleY, 0);
+                    }
 
                     if (TutorialManager.GetInstance().tutorialStep == 0)
                     {
@@ -159,9 +195,9 @@ public class PlayerController : MonoBehaviour
 
             s.Append(transform.DOMove(finalPath[i].GetComponent<Walkable>().GetWalkPoint(), .2f * time).SetEase(Ease.Linear));
 
-            
+            /*
             if (!finalPath[i].GetComponent<Walkable>().dontRotate)
-                s.Join(transform.DOLookAt(finalPath[i].position, .1f, AxisConstraint.Y, Vector3.up));
+                s.Join(transform.DOLookAt(finalPath[i].position, .1f, AxisConstraint.Y, Vector3.up));*/
         }
 
         if(clickedCube.GetComponent<Walkable>().isButton)

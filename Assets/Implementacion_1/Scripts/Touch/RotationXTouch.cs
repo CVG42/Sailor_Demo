@@ -12,24 +12,14 @@ public class RotationXTouch : MonoBehaviour
     [SerializeField] bool FlipControls;
     [SerializeField] Vector3 targetAngle;
 
-    bool isOnPlay;
 
     private void Start()
     {
         startAngle = transform.localRotation.eulerAngles;
-        GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
-        OnGameStateChanged(GameManager.GetInstance().currentGameState);
+        
     }
-
-    void OnGameStateChanged(GAME_STATE _gs)
-    {
-        isOnPlay = _gs == GAME_STATE.PLAY;
-    }
-
     private void Update()
     {
-        if (!isOnPlay) return;
-
         if (isRotating)
         {
             if (Input.touchCount == 1)
@@ -46,16 +36,24 @@ public class RotationXTouch : MonoBehaviour
                         break;
                     case TouchPhase.Ended:
 
+                        if (currentAngle >= (targetAngle.x - 8.0f))
+                        {
+                            transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, targetAngle.z);
+                            Collider collider = GetComponent<Collider>();
+                            collider.enabled = false;
+                        }
                         isRotating = false;
                         break;
                 }
+
+
             }
         }
+
+
     }
     void Rotation()
     {
-        if (!isOnPlay) return;
-
         if (!FlipControls)
         {
             if (turn < 0)

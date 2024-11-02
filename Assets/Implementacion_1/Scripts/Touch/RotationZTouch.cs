@@ -12,24 +12,13 @@ public class RotationZTouch : MonoBehaviour
     [SerializeField] Vector3 targetAngle;
     [SerializeField] bool FlipControls;
 
-    bool isOnPlay;
-
     private void Start()
     {
         startAngle = transform.localRotation.eulerAngles;
-        GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
-        OnGameStateChanged(GameManager.GetInstance().currentGameState);
-    }
 
-    void OnGameStateChanged(GAME_STATE _gs)
-    {
-        isOnPlay = _gs == GAME_STATE.PLAY;
     }
-
     private void Update()
     {
-        if (!isOnPlay) return;
-
         if (isRotating)
         {
             if (Input.touchCount == 1)
@@ -42,15 +31,15 @@ public class RotationZTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
-                        AudioManager.instance.PlayBlocks();
-                        if(TutorialManager.GetInstance().tutorialStep == 1)
-                        {
-                            TutorialManager.GetInstance().CompleteStep();
-                        }
                         Rotation();
                         break;
                     case TouchPhase.Ended:
-                        AudioManager.instance.StopBlocks();
+                        if (currentAngle >= (targetAngle.z - 8.0f))
+                        {
+                            transform.rotation = Quaternion.Euler(targetAngle.x, targetAngle.y, targetAngle.z);
+                            Collider collider = GetComponent<Collider>();
+                            collider.enabled = false;
+                        }
                         isRotating = false;
                         break;
                 }
@@ -59,8 +48,6 @@ public class RotationZTouch : MonoBehaviour
     }
     void Rotation()
     {
-        if (!isOnPlay) return;
-
         if (!FlipControls)
         {
             if (turn < 0)

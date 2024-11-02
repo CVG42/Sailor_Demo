@@ -5,28 +5,13 @@ using UnityEngine;
 public class MoveZTouch : MonoBehaviour
 {
     public bool isMoving = false;
+    public bool GoalPositive;
     float turn;
     [Header("Movimiento")]
     public float LimitNegative;
     public float LimitPositive;
-
-    bool isOnPlay;
-
-    void Start()
-    {
-        GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
-        OnGameStateChanged(GameManager.GetInstance().currentGameState);
-    }
-
-    void OnGameStateChanged(GAME_STATE _gs)
-    {
-        isOnPlay = _gs == GAME_STATE.PLAY;
-    }
-
     private void Update()
     {
-        if (!isOnPlay) return;
-
         if (isMoving)
         {
             if (Input.touchCount == 1)
@@ -36,19 +21,11 @@ public class MoveZTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
-                        AudioManager.instance.PlayBlocks();
                         Movement();
                         break;
                     case TouchPhase.Ended:
-                        AudioManager.instance.StopBlocks();
-                        if (transform.position.z > (LimitPositive - 0.09f))
-                        {
-                            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z));
-                        }
-                        else if (transform.position.z < (LimitNegative + 0.09f))
-                        {
-                            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z));
-                        }
+
+                        Snap();
                         isMoving = false;
                         break;
                 }
@@ -58,16 +35,46 @@ public class MoveZTouch : MonoBehaviour
 
     void Movement()
     {
-        if (!isOnPlay) return;
-
         if (turn < 0 && transform.position.z < LimitPositive)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y, LimitPositive), 14 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y, LimitPositive), 4 * Time.deltaTime);
 
         }
         else if (turn > 0 && transform.position.z > LimitNegative)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y, LimitNegative), 14 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y, LimitNegative), 4 * Time.deltaTime);
+        }
+    }
+
+    void Snap()
+    {
+        if (GoalPositive)
+        {
+            if (transform.position.z > (LimitPositive - 0.7f))
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, LimitPositive);
+                Collider collider = GetComponent<Collider>();
+                collider.enabled = false;
+            
+            }
+            else if (transform.position.z < (LimitNegative + 0.7f))
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, LimitNegative);
+            }
+        }
+        else if (!GoalPositive)
+        {
+            if (transform.position.z > (LimitPositive - 0.7f))
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, LimitPositive);
+
+            }
+            else if (transform.position.z < (LimitNegative + 0.7f))
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, LimitNegative);
+                Collider collider = GetComponent<Collider>();
+                collider.enabled = false;
+            }
         }
     }
 }
