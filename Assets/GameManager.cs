@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
                 if(pc.conditions[i].conditionObject.eulerAngles == pc.conditions[i].eulerAngle)
                 {
                     count++;
-                    pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;
+                    /*pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;*/
                 }
             }
             
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(vm.conditions[i].conditionPlatform.position, vm.conditions[i].XYposition) < 0.01f)
                 {
                     count++;
-                    vm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
+                    //vm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
                 }
             }
 
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(hm.conditions[i].conditionPlatform.position, hm.conditions[i].XYposition) < 0.01f)
                 {
                     count++;
-                    hm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
+                    //hm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
                 }
             }
 

@@ -10115,8 +10115,8 @@ BoxCollider:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_LayerOverridePriority: -10
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -17954,7 +17954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd8a414136d0d34dbb4f4a176e5fd18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentColor: {r: 0.8666667, g: 0.6392157, b: 0.09411765, a: 1}
+  currentColor: {r: 0.7372549, g: 0.3764706, b: 0.7058824, a: 1}
 --- !u!1 &1314483242
 GameObject:
   m_ObjectHideFlags: 0
@@ -19847,7 +19847,7 @@ BoxCollider:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: -10
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
