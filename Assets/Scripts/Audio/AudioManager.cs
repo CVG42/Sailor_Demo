@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -20,6 +21,20 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip colorChange;
     [SerializeField] AudioClip teleport;
     [SerializeField] AudioClip completed;
+    [SerializeField] AudioClip button;
+    [SerializeField] AudioClip rotate;
+    [SerializeField] AudioClip correct;
+
+    private AudioClip currentMusicClip;
+
+    [Header("Audio Settings")]
+    [SerializeField] AudioMixer mixer;
+    float currentVol = 0;
+    float currenMusicVol = 0;
+    [SerializeField] private bool sfxisOn;
+
+    [SerializeField] private bool bgmIsOn;
+
 
     private void Awake()
     {
@@ -39,22 +54,65 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(teleport);
     }
 
-    void Start()
+    public void Rotate()
     {
-        musicSource.clip = levelOne;
-        musicSource.Play();
-        blockSource.clip = blocks;
-        scene = SceneManager.GetActiveScene();
+        sfxSource.PlayOneShot(rotate);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Button()
     {
-        if(scene.name == "Menu")
+        sfxSource.PlayOneShot(button);
+    }
+
+    void Start()
+    {
+        if (PlayerPrefs.HasKey("sfxVol"))
         {
-            musicSource.clip = menu;
+            currentVol = PlayerPrefs.GetFloat("sfxVol", currentVol);
+            mixer.SetFloat("sfxVol", currentVol);
+        }
+
+        if (PlayerPrefs.HasKey("musicVol"))
+        {
+            currenMusicVol = PlayerPrefs.GetFloat("musicVol", currenMusicVol);
+            mixer.SetFloat("musicVol", currenMusicVol);
+        }
+
+        scene = SceneManager.GetActiveScene();
+        PlayBackgroundMusic(scene.name);
+
+        blockSource.clip = blocks;
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+    }
+
+    // Play background music based on scene name
+    private void PlayBackgroundMusic(string sceneName)
+    {
+        AudioClip newClip = sceneName == "Menu" ? menu : levelOne;
+
+        // Only switch music if it's different from the currently playing clip
+        if (newClip != currentMusicClip)
+        {
+            currentMusicClip = newClip;
+            musicSource.clip = newClip;
             musicSource.Play();
         }
+    }
+
+    // Event handler for when the scene changes
+    private void OnSceneChanged(Scene previousScene, Scene newScene)
+    {
+        PlayBackgroundMusic(newScene.name);
+    }
+
+    public void LinedUp()
+    {
+        sfxSource.PlayOneShot(correct);
     }
 
     public void ChangeColor()
@@ -84,25 +142,29 @@ public class AudioManager : MonoBehaviour
 
     public void VolumeOff()
     {
-        musicSource.volume = 0f;
-        PlayerPrefs.SetFloat("musicSource", musicSource.volume);
+        currentVol = -80;
+        mixer.SetFloat("sfxVol", currentVol);
+        PlayerPrefs.SetFloat("sfxVol", currentVol);
     }
 
     public void VolumeOn()
     {
-        musicSource.volume = 1f;
-        PlayerPrefs.SetFloat("musicSource", musicSource.volume);
+        currentVol = 0;
+        mixer.SetFloat("sfxVol", currentVol);
+        PlayerPrefs.SetFloat("sfxVol", currentVol);
     }
 
     public void SoundOff()
     {
-        sfxSource.volume = 0f;
-        PlayerPrefs.SetFloat("sfxSource", sfxSource.volume);
+        currenMusicVol = -80;
+        mixer.SetFloat("musicVol", currenMusicVol);
+        PlayerPrefs.SetFloat("musicVol", currenMusicVol);
     }
 
     public void SoundOn()
     {
-        sfxSource.volume = 1f;
-        PlayerPrefs.SetFloat("sfxSource", sfxSource.volume);
+        currenMusicVol = 0;
+        mixer.SetFloat("musicVol", currenMusicVol);
+        PlayerPrefs.SetFloat("musicVol", currenMusicVol);
     }
 }

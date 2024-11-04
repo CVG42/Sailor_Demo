@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public bool isOnPlay;
     public bool walking = false;
 
+    [SerializeField] ParticleSystem dust; 
+
     [Space]
 
     public Transform currentCube;
@@ -71,6 +73,8 @@ public class PlayerController : MonoBehaviour
                     finalPath.Clear();
                     FindPath();
 
+                    //dust.Play();
+
                     blend = transform.position.y - clickedCube.position.y > 0 ? -1 : 1;
 
                     indicator.position = mouseHit.transform.GetComponent<Walkable>().GetWalkPoint();
@@ -79,7 +83,7 @@ public class PlayerController : MonoBehaviour
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.white, .1f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.black, .3f).SetDelay(.2f));
                     s.Append(indicator.GetComponent<Renderer>().material.DOColor(Color.clear, .3f));
-
+                    /*
                     if (Input.touchCount > 0)
                     {
                         Touch touch = Input.GetTouch(0);
@@ -108,7 +112,7 @@ public class PlayerController : MonoBehaviour
                         }
 
                         transform.rotation = Quaternion.Euler(0, angleY, 0);
-                    }
+                    }*/
 
                     if (TutorialManager.GetInstance().tutorialStep == 0)
                     {
@@ -192,7 +196,7 @@ public class PlayerController : MonoBehaviour
         for (int i = finalPath.Count - 1; i > 0; i--)
         {
             float time = finalPath[i].GetComponent<Walkable>().isStair ? 1.5f : 1;
-
+            dust.Play();
             s.Append(transform.DOMove(finalPath[i].GetComponent<Walkable>().GetWalkPoint(), .2f * time).SetEase(Ease.Linear));
 
             /*
@@ -213,6 +217,7 @@ public class PlayerController : MonoBehaviour
         foreach (Transform t in finalPath)
         {
             t.GetComponent<Walkable>().previousBlock = null;
+            dust.Stop();
         }
         finalPath.Clear();
         walking = false;

@@ -27,6 +27,7 @@ public class EndLevel : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             PlayerPrefs.SetInt("Lv" + levelIndex, 1);
+            AudioManager.instance.LevelComplete();
             sceneAnim.NextLevel();
             //SceneManager.LoadScene(nextSceneName);
             Debug.Log("Teleport to next scene");

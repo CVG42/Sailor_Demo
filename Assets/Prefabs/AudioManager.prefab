@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 1179530278267380795}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8190017463185856879, guid: 5a2ac10fb4afb1241b6fdee3aa11deca, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -169,7 +169,7 @@ AudioSource:
   m_GameObject: {fileID: 1403776428221483188}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3686281036812101272, guid: 5a2ac10fb4afb1241b6fdee3aa11deca, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -313,6 +313,12 @@ MonoBehaviour:
   colorChange: {fileID: 8300000, guid: 36a39f578f7d491418788037c8f9ffd3, type: 3}
   teleport: {fileID: 8300000, guid: 460a817c5f77da44d965c8a9b9f8b74b, type: 3}
   completed: {fileID: 8300000, guid: e1a8a2ebc8121dc4f9f9bf9290c0684d, type: 3}
+  button: {fileID: 8300000, guid: 15d491366f15a3c458627fb9ed99ce02, type: 3}
+  rotate: {fileID: 8300000, guid: 3e8484166228fc343b66db7e3dd2c47b, type: 3}
+  correct: {fileID: 8300000, guid: ccd422710816d9145a3397ac38a5e2b9, type: 3}
+  mixer: {fileID: 24100000, guid: 5a2ac10fb4afb1241b6fdee3aa11deca, type: 2}
+  sfxisOn: 0
+  bgmIsOn: 0
 --- !u!1 &9017815651739021529
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +360,7 @@ AudioSource:
   m_GameObject: {fileID: 9017815651739021529}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3686281036812101272, guid: 5a2ac10fb4afb1241b6fdee3aa11deca, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

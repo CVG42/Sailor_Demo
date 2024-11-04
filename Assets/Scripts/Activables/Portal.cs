@@ -23,6 +23,7 @@ public class Portal : MonoBehaviour
 
             if (playerColor != null && playerColor.currentColor == portalColor)
             {
+                AudioManager.instance.Teleport();
                 TeleportPlayer();
             }
             

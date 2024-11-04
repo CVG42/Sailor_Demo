@@ -31,6 +31,10 @@ public class RotationZTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
+                        if (TutorialManager.GetInstance().tutorialStep == 0)
+                        {
+                            TutorialManager.GetInstance().CompleteStep();
+                        }
                         Rotation();
                         break;
                     case TouchPhase.Ended:

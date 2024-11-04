@@ -21,6 +21,10 @@ public class MoveXTouch : MonoBehaviour
                 switch (touch.phase)
                 {
                     case TouchPhase.Moved:
+                        if (TutorialManager.GetInstance().tutorialStep == 1)
+                        {
+                            TutorialManager.GetInstance().CompleteStep();
+                        }
                         Movement();
                         break;
                     case TouchPhase.Ended:

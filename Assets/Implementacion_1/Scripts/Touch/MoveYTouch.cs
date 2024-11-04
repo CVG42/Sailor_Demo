@@ -23,6 +23,10 @@ public class MoveYTouch : MonoBehaviour
                 {
                     case TouchPhase.Moved:
                         Movement();
+                        if (TutorialManager.GetInstance().tutorialStep == 1)
+                        {
+                            TutorialManager.GetInstance().CompleteStep();
+                        }
                         break;
                     case TouchPhase.Ended:
 
