@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] float collapseDuration;
     [SerializeField] Ease expandEase;
     [SerializeField] Ease collapseEase;
+    [SerializeField] GameObject background;
 
     [Space]
     [Header("Fading")]
@@ -44,6 +45,8 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GameManager.GetInstance().onGameStateChanged += OnGameStateChanged;
+
+        background.SetActive(false);
 
         itemsCount = transform.childCount - 1;
         menuItems = new PauseItem[itemsCount];
@@ -76,6 +79,8 @@ public class UIManager : MonoBehaviour
         if (isExpanded)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
+            background.SetActive(true);
+
             //menu opened
             for (int i = 0; i < itemsCount; i++)
             {
@@ -86,6 +91,8 @@ public class UIManager : MonoBehaviour
         else
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.PLAY);
+            background.SetActive(false);
+
             //menu closed
             for (int i = 0; i < itemsCount; i++)
             {

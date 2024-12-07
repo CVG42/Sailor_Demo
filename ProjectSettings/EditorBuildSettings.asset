@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Cinematic/Cinematic.unity
+    guid: 3d93ce3e3a4b3bf498078de2362f3059
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 7ba1bc38ab751fc4da858316b45a5c78
   - enabled: 1

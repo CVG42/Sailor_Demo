@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class PlayerColor : MonoBehaviour
 {
-    public Color currentColor; 
-    private Renderer playerRenderer;
+    //public Color currentColor;
+    private Material orb;
+    //private Renderer playerRenderer;
+
+    [ColorUsage(true, true)]
+    public Color innerColor;
+
+    [ColorUsage(true, true)]
+    public Color startColor;
 
     private void Start()
     {
-       
-        playerRenderer = GetComponent<Renderer>();
-        playerRenderer.material.color = currentColor;
+        orb = GetComponent<Renderer>().sharedMaterial;
+        orb.SetColor("_Fresnel_Color", startColor);
+        //playerRenderer = GetComponent<Renderer>();
+        //playerRenderer.material.color = currentColor;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,14 +29,16 @@ public class PlayerColor : MonoBehaviour
             {
                 TutorialManager.GetInstance().CompleteStep();
             }
-            Color rayColor = other.gameObject.GetComponent<Renderer>().material.color;
-            ChangeColor(rayColor);
+            //Color rayColor = other.gameObject.GetComponent<Renderer>().material.color;
+            //ChangeColor(rayColor);
+            orb.SetColor("_Fresnel_Color", innerColor);
         }
     }
 
     public void ChangeColor(Color newColor)
     {
-        currentColor = newColor;
-        playerRenderer.material.color = newColor;
+        
+        //currentColor = newColor;
+        //playerRenderer.material.color = newColor;
     }
 }

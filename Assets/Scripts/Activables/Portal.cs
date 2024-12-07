@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
+    [ColorUsage(true, true)]
     public Color portalColor;
+
     public GameObject targetPortal;
     public GameObject player1;
     public GameObject target;
@@ -21,7 +23,7 @@ public class Portal : MonoBehaviour
         {
             PlayerColor playerColor = other.GetComponent<PlayerColor>();
 
-            if (playerColor != null && playerColor.currentColor == portalColor)
+            if (playerColor != null && playerColor.innerColor == portalColor)
             {
                 AudioManager.instance.Teleport();
                 TeleportPlayer();
