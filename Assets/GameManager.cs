@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,15 +21,36 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Action<GAME_STATE> onGameStateChanged;
+
+    [Header("Game State and player")]
     public GAME_STATE currentGameState;
-    
+    public PlayerController player;
+
+    [Space(10)]
+    [Header("Path Conditions")]
+    [Space(5)]
     public List<RotationPathCondition> rotatingPathConditions = new List<RotationPathCondition>();
     public List<VerticalMovablePathCondition> verticalMovablePathConditions = new List<VerticalMovablePathCondition>();
     public List<HorizontalMovablePathCondition> horizontalMovablePathConditions = new List<HorizontalMovablePathCondition>();
+    public List<ActivatedPathCondition> activatedPathConditions = new List<ActivatedPathCondition>();
+
+    [Space(5)]
+    [Header("Activable Platforms")]
+    public GameObject[] activablePlatforms;
+
+    [Space(5)]
+    [Header("Teleport zone")]
+    public GameObject[] teleport;
+    public string nextSceneName;
+
+    [Space(5)]
+    [Header("Extra elements")]
+    public GameObject particles;
 
     void Update()
     {
         ConditionPath();
+        if (player.walking) return;
     }
 
     public void ChangeGameState(GAME_STATE _newGameState)
@@ -55,7 +77,7 @@ public class GameManager : MonoBehaviour
                 if(pc.conditions[i].conditionObject.eulerAngles == pc.conditions[i].eulerAngle)
                 {
                     count++;
-                    pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;
+                    /*pc.conditions[i].conditionObject.GetComponent<Collider>().enabled = false;*/
                 }
             }
             
@@ -72,7 +94,7 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(vm.conditions[i].conditionPlatform.position, vm.conditions[i].XYposition) < 0.01f)
                 {
                     count++;
-                    vm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
+                    //vm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
                 }
             }
 
@@ -89,12 +111,29 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(hm.conditions[i].conditionPlatform.position, hm.conditions[i].XYposition) < 0.01f)
                 {
                     count++;
-                    hm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
+                    //hm.conditions[i].conditionPlatform.GetComponent<Collider>().enabled = false; //can be commented depending on the platform collider
                 }
             }
 
             foreach(SinglePath sp in hm.paths)
                 sp.block.possiblePaths[sp.index].active = (count == hm.conditions.Count);
+        }
+
+        foreach (ActivatedPathCondition ap in activatedPathConditions)
+        {
+            int count = 0;
+
+            for (int i = 0; i < ap.conditions.Count; i++)
+            {
+                if (Vector3.Distance(ap.conditions[i].conditionPlatform.position, ap.conditions[i].XYposition) < 0.01f)
+                {
+                    count++;
+                    particles.SetActive(true);
+                }
+            }
+
+            foreach (SinglePath sp in ap.paths)
+                sp.block.possiblePaths[sp.index].active = (count == ap.conditions.Count);
         }
     }
 }
@@ -124,6 +163,14 @@ public class VerticalMovablePathCondition
 
 [System.Serializable]
 public class HorizontalMovablePathCondition
+{
+    public string name;
+    public List<MoveCondition> conditions;
+    public List<SinglePath> paths;
+}
+
+[System.Serializable]
+public class ActivatedPathCondition
 {
     public string name;
     public List<MoveCondition> conditions;
